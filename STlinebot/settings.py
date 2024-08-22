@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-xse&dp=nkzu9&44rg)w5d+roqrohn9v7-s&*zel(c76rv-@=wj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "st_linebot",
+    "line_bot",
 ]
 
 MIDDLEWARE = [
@@ -103,9 +105,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "zh-hant"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Taipei"
 
 USE_I18N = True
 
@@ -116,8 +118,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'public/assets'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+## Secure cross policy
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None
+
+LINE_CHANNEL_ACCESS_TOKEN="JQe+hX0tKQce+7MkokHxNHiKagka/2fG4E1at9BcdKDG2hLfULMwIs+Lmq7tnWJ2BuxkdgLVQ5lWEFcNne9iEMIMcqMVbQAN9b7xZfN5AVndeDGUxYVL/wUvNqtITibwJUYQVMKtS+nVZ8Y+GHIiWwdB04t89/1O/w1cDnyilFU="
+LINE_CHANNEL_SECRET="6de8c56f2efb930c45fc13c288f680ca"

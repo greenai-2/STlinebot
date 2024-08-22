@@ -17,7 +17,11 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
+from line_bot.views import callback, pushMsg, get_stock_predict
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path('line/', callback),
+    path('line/push/<str:uid>', pushMsg),
+    path('line/push/<str:uid>', get_stock_predict),
 ]
