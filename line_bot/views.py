@@ -500,4 +500,15 @@ def get_stock_predict(num):
 
     #plt.tight_layout()
     #plt.show()
+    from datetime import datetime, timedelta
+    data = yf.download(num, start="2000-08-10")#end="")
+    data = pd.DataFrame(data)
+    import datetime
+    nowtime=datetime.datetime.now()+datetime.timedelta(hours=0)
+    nowtime=nowtime.strftime("%H:%M:%S")
+    if "00:00"<=nowtime<"13:30":
+        next_day = date_obj + timedelta(days= 0)
+    else:
+        next_day = date_obj + timedelta(days= 1)
+    next_day_str = next_day.strftime('%Y/%m/%d')
     return f"{num}_{next_day_str}_Predictio n: 開盤價: {op:.2f}, 最高價: {hp:.2f}, 最低價: {lp:.2f}, 收盤價: {cp:.2f}"
