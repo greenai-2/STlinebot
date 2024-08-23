@@ -42,7 +42,7 @@ def callback(request):
                     # line_bot_api.reply_message(event.reply_token, TextSendMessage(text = res_text))
                     if res_text == "股票預測":
                         cache.set(user_id, 'waiting_for_location', timeout=300)  # 5分鐘後狀態自動過期
-                        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="請輸入股票代碼(例如:1234):"))
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="請輸入股票代碼(例如:1234，大盤指數請輸入:TW):"))
                     elif cache.get(user_id) == 'waiting_for_location':
                     # 用戶輸入股票代碼後，預測結果
                         num = res_text
