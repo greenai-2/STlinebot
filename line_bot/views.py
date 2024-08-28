@@ -89,7 +89,59 @@ def get_stock_predict(num):
         num="^TWII"
     else:
         num=str(num)+".TW"
+###
+# 定義 URL
+    stock_code=num
+#print(stock_code)
+    url = f'https://tw.stock.yahoo.com/quote/{stock_code}'
+    import requests 
+    from bs4 import BeautifulSoup
+# 發送GET請求至目標網站
+    response = requests.get(url)
 
+    pri_now=0
+# 檢查請求是否成功
+    if response.status_code == 200:
+    # 解析 HTML 網頁
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+    # 查找並提取 <h1> 標籤中的文字
+        title_element = soup.find('h1', class_='C($c-link-text) Fw(b) Fz(24px) Mend(8px)')
+        title = title_element.get_text(strip=True) if title_element else ''
+
+    # 查找並提取 <span> 標籤中的文字
+        span_element = soup.find('span', class_='C($c-icon) Fz(24px) Mend(20px)')
+        span_text = span_element.get_text(strip=True) if span_element else ''
+
+    # 查找包含價格詳細信息的 <ul> 元素
+
+        ul_element = soup.find('ul', class_='D(f) Fld(c) Flw(w) H(192px) Mx(-16px)')
+
+    # 確保找到 <ul> 元素
+        #import requests as rt
+        #from bs4 import BeautifulSoup
+        if ul_element:
+        # 提取成交、開盤、最高、最低價格
+            prices = {}
+            for li in ul_element.find_all('li', class_='price-detail-item'):
+                label = li.find('span', class_='C(#232a31)').get_text(strip=True)
+                value = li.find('span', class_='Fw(600)').get_text(strip=True)
+                if label in ['成交', '開盤', '最高', '最低']:
+                    prices[label] = value
+                    pri_now=prices.get('成交', 'N/A')
+        # 輸出提取的價格
+            #print(f"{title} {span_text}  日期：{today_str}, 時間：{current_time_str}  ")
+            #print(f"成交價: {prices.get('成交', 'N/A')}, 開盤價: {prices.get('開盤', 'N/A')}, 最高價: {prices.get('最高', 'N/A')}, 最低價: {prices.get('最低', 'N/A')}")
+
+            #else:
+            #print('未找到價格詳細信息的 <ul> 元素。')
+        #else:
+        #print(f'網頁加載失敗，狀態碼: {response.status_code}')
+
+
+
+
+###
     import yfinance as yf
     import pandas as pd
     from datetime import datetime, timedelta
@@ -511,4 +563,12 @@ def get_stock_predict(num):
     else:
         next_day = date_obj + timedelta(days= 1)
     next_day_str = next_day.strftime('%Y/%m/%d')
-    return f"{num}_{next_day_str}_Predictio n: 開盤價: {op:.2f}, 最高價: {hp:.2f}, 最低價: {lp:.2f}, 收盤價: {cp:.2f}"
+    ##
+    if isinstance(pri_now, str):
+        try:
+            pri_now = float(pri_now.replace(',', '')) # Remove commas before conversion
+        except ValueError:
+            pri_now = 0  # Or handle the error as you see fit
+    #print(f"{num}_{next_day_str}_Prediction: 現時價:{pri_now:.2f},開盤價: {op:.2f}, 最高價: {hp:.2f}, 最低價: {lp:.2f}, 收盤價: {cp:.2f}")
+    return f"{num}_{next_day_str}_Prediction: 現時價:{pri_now:.2f},開盤價: {op:.2f}, 最高價: {hp:.2f}, 最低價: {lp:.2f}, 收盤價: {cp:.2f}"
+    #
