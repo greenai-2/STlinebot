@@ -94,7 +94,8 @@ def get_stock_predict(num):
     stock_code=num
 #print(stock_code)
     url = f'https://tw.stock.yahoo.com/quote/{stock_code}'
-
+    import requests 
+    from bs4 import BeautifulSoup
 # 發送GET請求至目標網站
     response = requests.get(url)
 
@@ -117,6 +118,8 @@ def get_stock_predict(num):
         ul_element = soup.find('ul', class_='D(f) Fld(c) Flw(w) H(192px) Mx(-16px)')
 
     # 確保找到 <ul> 元素
+        #import requests as rt
+        #from bs4 import BeautifulSoup
         if ul_element:
         # 提取成交、開盤、最高、最低價格
             prices = {}
@@ -130,9 +133,9 @@ def get_stock_predict(num):
             #print(f"{title} {span_text}  日期：{today_str}, 時間：{current_time_str}  ")
             #print(f"成交價: {prices.get('成交', 'N/A')}, 開盤價: {prices.get('開盤', 'N/A')}, 最高價: {prices.get('最高', 'N/A')}, 最低價: {prices.get('最低', 'N/A')}")
 
-        else:
+            #else:
             #print('未找到價格詳細信息的 <ul> 元素。')
-    else:
+        #else:
         #print(f'網頁加載失敗，狀態碼: {response.status_code}')
 
 
@@ -567,5 +570,5 @@ def get_stock_predict(num):
         except ValueError:
             pri_now = 0  # Or handle the error as you see fit
     #print(f"{num}_{next_day_str}_Prediction: 現時價:{pri_now:.2f},開盤價: {op:.2f}, 最高價: {hp:.2f}, 最低價: {lp:.2f}, 收盤價: {cp:.2f}")
-    return f"{num}_{next_day_str}_Prediction: 現時價:{pri_now:.2f},開盤價: {op:.2f}, 最高價: {hp:.2f}, 最低價: {lp:.2f}, 收盤價: {cp:.2f}")"
+    return f"{num}_{next_day_str}_Prediction: 現時價:{pri_now:.2f},開盤價: {op:.2f}, 最高價: {hp:.2f}, 最低價: {lp:.2f}, 收盤價: {cp:.2f}"
     #
